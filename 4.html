@@ -1,0 +1,1396 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Report Viewer</title><link href="css/styles.css" type="text/css" rel="Stylesheet"><link href="css/reportViewer.css" type="text/css" rel="Stylesheet">
+
+    <script type="text/javascript" language="javascript">
+
+        // Cancel pop up action
+        function CancelAction()
+        {
+            // Clear
+            document.getElementById('ctl00_ContentPlaceHolder1_txtSnapshotName').value = '';
+            unvalidate('SaveSnapshot');
+        }
+
+        // Unvalidate the group
+        function unvalidate(myValidationGroup)
+        {
+            // Remove the validator control(s) from display.
+            var myValidators = Page_Validators;
+
+            if ((typeof (myValidators) != "undefined") && (myValidators != null))
+            {
+                for (i = 0; i < myValidators.length; i++)
+                {
+                    var myValidator = myValidators[i];
+
+                    if (myValidationGroup == null || IsValidationGroupMatch(myValidator, myValidationGroup))
+                    {
+                        if (myValidator.style.visibility.length > 0 && myValidator.style.display.length == 0)
+                        {
+                            myValidator.style.visibility = 'hidden';
+                        }
+                        else if (myValidator.style.display.length > 0 && myValidator.style.visibility.length == 0)
+                        {
+                            myValidator.style.display = 'none';
+                        }
+                    }
+                }
+            }
+        }
+
+        // Focus
+        function showSaveOptions()
+        {
+            // Hide the original pop
+            $find('ReportOptionsPopUp').hidePopup();
+
+            // See if we can find out popup object, as if it is returning NULL it is hidden
+            var Modal = $find('SaveSnapshotExtender');
+
+            // Check the value of the object
+            if (Modal != null)
+            {
+                // Show pop up
+                Modal.show();
+
+                // Set focus
+                $get('ctl00_ContentPlaceHolder1_txtSnapshotName').focus();
+            }
+            else
+            {
+                // Output alert
+                alert('You have reached the maximum number of reports that can be saved. Please remove a report before trying to save a new one.');
+            }
+
+            // Return
+            return false;
+        }
+    
+    </script>
+
+<style type="text/css" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl_styles">#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9853xB{border:1pt none Black;background-color:Transparent;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9851{border:1pt none Black;background-color:Transparent;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f965c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;background-color:#45acba;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 288.81mm;WIDTH:290.22mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f965{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:White;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f977c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:bottom;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f977{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:bottom;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f981c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:bottom;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f981{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:bottom;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f985c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:bottom;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 71.32mm;WIDTH:72.73mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f991c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:middle;text-align:center;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 27.24mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f995c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 24.06mm;WIDTH:25.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f999c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 20.79mm;WIDTH:22.20mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9104c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9104{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9108c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9108{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9112c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none #767da0;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 71.32mm;WIDTH:72.73mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9118c{padding-left:0pt;padding-top:0pt;padding-right:0pt;padding-bottom:0pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 28.65mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9122c{padding-left:0pt;padding-top:0pt;padding-right:0pt;padding-bottom:0pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 25.47mm;WIDTH:25.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9126c{padding-left:0pt;padding-top:0pt;padding-right:0pt;padding-bottom:0pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.20mm;WIDTH:22.20mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9176c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9180c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9184c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.70mm;WIDTH:24.11mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9188c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 23.59mm;WIDTH:25.00mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9192c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.21mm;WIDTH:23.62mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9196c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 27.24mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9200c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 24.06mm;WIDTH:25.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9204c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 20.79mm;WIDTH:22.20mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9341c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9345c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9349c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.70mm;WIDTH:24.11mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9353c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 23.59mm;WIDTH:25.00mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9357c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.21mm;WIDTH:23.62mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9361c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 27.24mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9365c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 24.06mm;WIDTH:25.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9369c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 20.79mm;WIDTH:22.20mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9374c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9374{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9378c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 116.16mm;WIDTH:117.57mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9378{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9383c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 23.59mm;WIDTH:25.00mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9387c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.21mm;WIDTH:23.62mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9391c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 27.24mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9395c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 24.06mm;WIDTH:25.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9399c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 20.79mm;WIDTH:22.20mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9404c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9404{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9408c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 241.11mm;WIDTH:242.52mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9408{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9419c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9419{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9423c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9423{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9427c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 147.64mm;WIDTH:149.05mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9437c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9437{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9441c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9441{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9445c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 147.64mm;WIDTH:149.05mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9500c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 288.81mm;WIDTH:290.22mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9512c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border-bottom:1pt solid #45acba;border-left:1pt solid #45acba;border-right:1pt solid #45acba;border-top:1pt solid #45acba;background-color:#45acba;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 45.58mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9512{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:White;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9516c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border-bottom:1pt solid #45acba;border-left:1pt solid #45acba;border-right:1pt solid #45acba;border-top:1pt solid #45acba;background-color:#45acba;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 115.46mm;WIDTH:117.57mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9516{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:White;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9521c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border-bottom:1pt solid #45acba;border-left:1pt solid #45acba;border-right:1pt solid #45acba;border-top:1pt solid #45acba;background-color:#45acba;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.51mm;WIDTH:48.62mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9521{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:White;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9526c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border-bottom:1pt solid #45acba;border-left:1pt solid #45acba;border-right:1pt solid #45acba;border-top:1pt solid #45acba;background-color:#45acba;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 26.53mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9526{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:White;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9530c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt solid #45acba;background-color:#45acba;vertical-align:top;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 45.56mm;WIDTH:47.67mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9530{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:700;text-decoration:none;unicode-bidi:normal;color:White;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:top;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9536c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;border-left:1pt solid #45acba;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 45.94mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9536{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9540c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;border-top:1pt solid Silver;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 116.16mm;WIDTH:117.57mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9540{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9545c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;border-top:1pt solid Silver;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 23.59mm;WIDTH:25.00mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9545{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9549c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;border-top:1pt solid Silver;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.21mm;WIDTH:23.62mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9553c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;border-top:1pt solid Silver;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 27.24mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9553{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9557cl{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Silver;border-bottom:1pt solid Silver;border-right:1pt solid #45acba;border-top:1pt solid Silver;vertical-align:top;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 45.91mm;WIDTH:47.67mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9557{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:none;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:top;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9563c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:top;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 288.81mm;WIDTH:290.22mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9626c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:Transparent;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 288.81mm;WIDTH:290.22mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9626{word-wrap:break-word;white-space:pre-wrap;font-style:normal;font-family:Arial;font-size:10pt;font-weight:400;text-decoration:underline;unicode-bidi:normal;color:Black;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;vertical-align:middle;text-align:left;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9626a{font-family:Arial;font-size:10pt;font-weight:400;font-style:normal;text-decoration:underline;color:Black;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9638cl{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 288.81mm;WIDTH:290.22mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9650c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 46.29mm;WIDTH:47.70mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9654c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 92.05mm;WIDTH:93.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9658c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.70mm;WIDTH:24.11mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9662c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 23.59mm;WIDTH:25.00mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9666c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 22.21mm;WIDTH:23.62mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9670c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 27.24mm;WIDTH:28.65mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9674c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 24.06mm;WIDTH:25.47mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9678c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 20.79mm;WIDTH:22.20mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .A377f33a41ef74a3390930e2760de02f9833c{padding-left:2pt;padding-top:2pt;padding-right:2pt;padding-bottom:2pt;border:1pt none Black;background-color:White;vertical-align:middle;text-align:left;direction:ltr;layout-flow:horizontal;writing-mode:lr-tb;min-width: 288.81mm;WIDTH:290.22mm;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r1{HEIGHT:100%;WIDTH:100%}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r2{HEIGHT:100%;WIDTH:100%;overflow:hidden}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r3{HEIGHT:100%}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r4{border-style:none}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r5{border-left-style:none}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r6{border-right-style:none}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r7{border-top-style:none}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r8{border-bottom-style:none}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r10{border-collapse:collapse}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r9{border-collapse:collapse;table-layout:fixed}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r11{WIDTH:100%;overflow-x:hidden}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r12{position:absolute;display:none;background-color:white;border:1px solid black;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r13{text-decoration:none;color:black;cursor:pointer;}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r14{font-size:0pt}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r15{direction:RTL;unicode-bidi:embed}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r16{margin-top:0pt;margin-bottom:0pt}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r17{HEIGHT:100%;WIDTH:100%;display:inline-table}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv .P7a4adaa16774469d80624ab4bdd0490d_1_r18{HEIGHT:100%;display:inline-table}#P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv  * { -webkit-box-sizing: border-box; box-sizing: border-box }#VisibleReportContentctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09 { background-color:Transparent;border:1pt none Black;} #P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv, #P7a4adaa16774469d80624ab4bdd0490d_1_oReportDiv TABLE { font-family: Times New Roman; }</style></head>
+<body>
+    <form name="aspnetForm" method="post" action="./reportviewer.aspx?reportinstanceid=ECD45115352A32D2D7EDB50E629A4A24AFE64704DA22AAC4A12F0C59BD0B7FF2FF7DDD5ED40F0B44&amp;username=F898A934781C149169AB6CDB317249F9" onsubmit="javascript:return WebForm_OnSubmit();" id="aspnetForm">
+<div>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            margin: 0;
+            padding: 20px;
+            color: #000000;
+            background-color: #f5f5f5;
+        }
+
+        /* 主容器样式 */
+        .results-container {
+            width: 100%;
+            max-width: 297mm; /* A4纸宽度 */
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 15mm;
+        }
+
+        /* 标题样式 */
+        .report-title {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-bottom: 10mm;
+            color: #45a3ba;
+            border-bottom: 1px solid #dddddd;
+            padding-bottom: 5mm;
+        }
+
+        /* 表格整体样式 */
+        .results-table {
+            
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 10mm;
+        }
+
+        /* 表头样式 */
+            .results-header {
+        background-color: #45a3ba; /* 深蓝色背景 */
+        color: white; /* 白色文字 */
+        font-weight: bold;
+        text-align: left;
+        padding: 2mm 3mm;
+        border: 1px solid #dddddd;
+    }
+
+        /* 单元格基础样式 */
+        .results-cell {
+            padding: 2mm 3mm;
+            border: 1px solid #dddddd;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        /* 特殊边框颜色 */
+        .border-blue-left {
+            border-left: 2px solid #45a3ba;
+        }
+
+        .border-blue-right {
+            border-right: 2px solid #45acba;
+        }
+
+        .border-blue-bottom {
+            border-bottom: 2px solid #45acba;
+        }
+
+        /* 交替行颜色 */
+        .row-white {
+            background-color: #ffffff;
+        }
+
+        .row-light-blue {
+            background-color: #D9E0FA;
+        }
+
+        /* 链接样式 */
+        .results-link {
+            color: #0066cc;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .results-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 列宽设置 */
+        .col-code {
+            width: 50mm;
+            min-width: 50mm;
+        }
+
+        .col-name {
+            width: 120mm;
+            min-width: 120mm;
+        }
+
+        .col-credits {
+            width: 25mm;
+            min-width: 25mm;
+            text-align: center;
+        }
+
+        .col-mark {
+            width: 30mm;
+            min-width: 30mm;
+            text-align: center;
+        }
+
+        .col-grade {
+            width: 50mm;
+            min-width: 50mm;
+            text-align: center;
+        }
+
+        /* 响应式调整 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .results-container {
+                padding: 5mm;
+            }
+            
+            .results-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                font-size: 9pt;
+            }
+            
+            .results-container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+            }
+        }
+    </style>
+
+
+
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/ReportCradle/WebResource.axd?d=MHJE5c8DLdta1fXxx0_GP5wHl_SCNag40XVOYQX1VFnucTCvSAaPkHGaNM5aUXuOJIFtK8qSWRWJ5I9rJt05zn-t91zEJosl5NjP78sox601&amp;t=638568640371266408" type="text/javascript"></script>
+
+
+<script src="/ReportCradle/ScriptResource.axd?d=IeVbiDQ2ZAHbjGHRvSXdyGA5ZuKMeWPSTEL30uu_0mUaHEb3brWh6ENTcK_oo89KMKPWqknMWkYEzEhfTdr5kBxTTjsw_0ZJoTSQRGn1y3jlDCBuW6mDfoxissQx50GiyavnqU45JvXRz_1aRoDR8IY8F4w37k4K98AnEgs7Xiw1&amp;t=ffffffffba22f784" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=_rTARbxyEa4nqn064FLiOcIUpYx-2GeIeURf7RrGX6qXOOYqrZygoedzQg2j-MB6v686n3b0qutX7_pUrak2HzH4JmvwbU0O1iaRlBU_YHzaXFTb9zRwDIeekV62rR380&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=9hWrrh3F1BHpUwNAGCv-JX6f_-6x8s83LkkCPD6IeaqTutzxE8o7FBZPfS6qTjOhnLr6qrUfMy4stStuT3Bq5YKL4GEo6bv2T-Qsx2q1LfoRqwOABZXaOpEOMfSoP0udK7TwdRXX9E_Gi9PwTlMVPA2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=12.0.2402.15&amp;Name=ViewerScript" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=wLa-ZE6XCO12vLUEuhLvxcByosu_f-mk9Ao2hph0NvcPFJ3HfJ6f4cxIZmrH-JWtGl2OGTloHXwQ9s9c4HK2AhTlUl0INKmMr3tVFQOw-k_ES-xSFHQPpjtfTgoVkFfxOMlU6O7CfSsYaTPxDmHaWg2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=dty2ePkA0m6EvTV6jMggzy2KObVit2FSUu1Jn3EJJWBNUpF1C_YvFZZGxg6_kLJByjGcHXPusOFLGUcuFpKWpwbYVEMkkSm9L1L1TRw8F_ErlSJOYlBcg5Qz0jq3HQfm0&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=1xYA5hQk_M3C4Uivx9Qsbikj2QSUogNs0gV1gIMuxOK8ofWkqTbUeCwD80hWpWG7JgQw3dt_WA-7aCGf_Bn-mXNNTbzpYqswC_hxq-iE1RwE38HcF5W_AiuerNi1EeB9LYkbaL3axdPLaVsn_GlW7g2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=th-NdQ3AhSAW0soaNVLvaYl8AKLigzsu1vAm3EZTbyJ5ug507R-4sX_6gbglAerPyNxU7b9X0lIiqTVy1mlj9YmAAk2aVxPytqkJ1VDJgYCtGubkVLTuTC9lSQp2yPmvkVywsHZraYXa2o0Rchm0k-WYb282YSKxmSK6-_t4VpU1&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=YFzhA2187URtXBe-gMlj996TRpACqPcETsl6nU3avfp8wtPdrVmonRG3SHn4bwO5mSKNmB-DEhV-14fuhYb5ZTPboqVthsUAvIKBZeXmXT8Qo3ctCTeDy4oT27b5voltKQ1SSluM69rI9NXzzwyiTg2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=pdVTe8-SvhSjKwzKo2yEmYCczb-qq7dM-aRC27o_IHoNZwZx6IZ3GUJm7gNVZ8pw1rMdiRLj14s0tl4fKw8qLsofp-5SYSvQCkAH6PUjNcFdBzl_p9RLiuthz2ecSovoNLdcuNAIeTazqmOWB_ylZw2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=FtxiJ_joG-qboikJKyLq27POgDF-nFU05eYJx5zjLhs_FEmmpJCVxuK05D1HvFBFH0ZJEgZHWlytLWvTwqBGVLev6zJ50Lp9KjwYYmTftc7baKLmIAUQJ9-qbrRIltem9b6FYI5wdEoFLmdv7LrfYA2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=-zQNdoxHOgh5hep6lnCSJB388J25ZAV5Z90X5AbxV73VxyPaMDuJb56us5IyKZ2pU3OEanEsJuWSL7uIRWXypisxxwMIEZHIc4dP9OS1cx6e4IYgvgQpWPvA7bWA50qvuXj9BRZzcNQFKVKAC7hxjfAK6N2c4A_RiOkZfXq6pWk1&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=8vsKSCHNYmTMZNWoTpvExBOY8Mii3-9Yiyjit9OWWPOEOPiUqeeF4CUIcaBkwJ5RLWoUzYMfR1LoOfztiKv5hC7TZ7AbMipl0mEW3e7TCHRMgOQ8g4qXnKLINkh-2P4yzbMPRCgh-436VN_VIfVkpQ2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="/ReportCradle/ScriptResource.axd?d=oV1KAQ55NLVMv9V07-kLsnDM5mXqERKAvp6RAGdq8V81HyXm9nX43_t5fUK9ytyzFZ2fq3NtOcL0msEmSVYsxNYb_pfDwXHcaTLo0xAWEVEYcudhNJZcumhNouyG1P0CU9Us-Its8E-c-k1lbx6iYw2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+<div>
+
+	
+	
+</div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$smMasterPage', 'aspnetForm', ['fctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ReportViewer','','fctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$DocMap','','fctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$ReportArea',''], [], ['ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$ReportControl$ctl00',''], 90, 'ctl00');
+//]]>
+</script>
+
+    <div>
+        
+    
+    
+    <div id="ctl00_ContentPlaceHolder1_ReportViewerHeader" class="ReportViewerHeader">
+     
+        <div class="ReportDropDownOptions">
+                                
+        </div>
+
+    </div>
+       
+    
+           
+            <!-- Hidden Button -->
+            <input type="submit" name="ctl00$ContentPlaceHolder1$btnSaveSnapshotHidden" value="" id="ctl00_ContentPlaceHolder1_btnSaveSnapshotHidden" style="display: none;">
+            
+            <!-- The report control -->
+            <div id="ctl00_ContentPlaceHolder1_ReportDisplay">
+                
+                <div id="ctl00_ContentPlaceHolder1_rshReportControl_pnlControlContainer">
+	
+
+    <script type="text/javascript">
+
+        // Global Variables
+        var myPopupWindow = '';
+        var _currentParameterID;
+        var _currentControlID;
+        var _currentPopupControlID = null;
+        var _startingCheckedItems = new Array();
+        var _triggerLoadAction = false;
+        var _visibleFlag = false;
+
+        // Register events
+        Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(pageLoaded);
+        Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(beginRequestHandler);
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
+
+        // Page loaded function    
+        function pageLoaded(sender, args)
+        {
+
+            // Check if the flag has been set
+            if (_triggerLoadAction)
+            {
+                // Force post back   
+                forcePostBack("ctl00$ContentPlaceHolder1$rshReportControl$btnLoadReportTrigger", "");
+            }
+        }
+
+        // Force a post back on the sender item
+        function forcePostBack(sender, e)
+        {
+
+            // Force the post back
+            __doPostBack(sender, e);
+        }
+
+        // Show when an ajax request begins
+        function beginRequestHandler(sender, args)
+        {
+            // Show / hide items
+            //document.getElementById('ParameterContent').style.display = "none";
+            var parameterLoadingScreenElement = document.getElementById("ParameterLoadingScreen");
+            if (parameterLoadingScreenElement != null)
+            {
+                parameterLoadingScreenElement.style.display = "block";
+                parameterLoadingScreenElement.src = 'image/loader.gif';
+            }
+        }
+
+        // Show when a ajax request ends
+        function endRequestHandler(sender, args)
+        {
+            // Show / hide items
+            var parameterContentElement = document.getElementById('ParameterContent');
+            if (parameterContentElement != null)
+            {
+                parameterContentElement.style.display = "block";
+            }
+
+            var parameterLoadingScreenElement = document.getElementById('ParameterLoadingScreen');
+            if (parameterLoadingScreenElement != null)
+            {
+                parameterLoadingScreenElement.style.display = "none";
+            }
+            
+        }
+
+        // Open new console window to show report full screen
+        function openReportConsole(currentID)
+        {
+            // Variables.
+            var url = 'ReportConsole.aspx?ReportID=' + currentID;
+            var name = 'ReportConsole';
+
+            // Check if it is already open, and if the location has been set.
+            if (!myPopupWindow.closed && myPopupWindow.location)
+            {
+
+            }
+            else
+            {
+                // Redirect this page
+                window.location = 'reportViewer.aspx';
+
+                // Assign popup window
+                myPopupWindow = window.open(url, name, 'left=0, top=0, width=800, height=600, location=no, scrollbars=no, resizable=yes, toolbar=no, menubar=no');
+            }
+
+            // Return false (to stop page refresh)
+            return false;
+        }
+
+        // Update the server based on the items that have been checked
+        function UpdateCheckedItems(control, parameterID)
+        {
+            // Get the items that are checked from the control
+            var checkedItems = GetCheckedItems(control);
+
+            // Create string
+            var checkedJson = "[";
+
+            // Loop through the checked items and update the database
+            for (var i = 0; i < checkedItems.length; i++)
+            {
+                // Add
+                checkedJson += "{\"ControlName\":\"" + parameterID + "\",\"ValueIndex\":" + checkedItems[i] + "}";
+
+                // Check position
+                if (i != (checkedItems.length - 1))
+                {
+                    // Append
+                    checkedJson += ",";
+                }
+            }
+
+            // End string
+            checkedJson += "]";
+
+            // Call the server with our JSON string
+            // CallServer(checkedJson);
+
+            // Assign
+            document.getElementById('ctl00_ContentPlaceHolder1_rshReportControl_hfMultiSelect').value = checkedJson;
+        }
+
+        // Occur on error during client callback
+        function OnError(message, context)
+        {
+
+            // Handle error
+            alert('An unhandled exception has occurred:\n' + message);
+        }
+
+        // Clear control value
+        function ClearMe(controlID)
+        {
+            // Clear the control ID
+            document.getElementById(controlID).value = '';
+        }
+
+        // Receive call back response
+        function ReceiveServerData(arg, context)
+        {
+
+        }
+
+        // Close all popup extenders on execution
+        function ScrollClear()
+        {
+            // Check if the object exists
+            if ((_popupExtenders != null) && (_popupExtenders.length > 0))
+            {
+                // We need to loop through our array of items that are boxes, and close them all.
+                for (var i = 0; i < _popupExtenders.length; i++)
+                {
+                    // Does the item exist
+                    if (($find(_popupExtenders[i])))
+                    {
+                        // Find the item and close
+                        $find(_popupExtenders[i]).hidePopup();
+                    }
+                }
+            }
+        }
+
+        // Display popup handler based on a click
+        function DisplayPopupHandler(popupControlID, evt)
+        {
+            // Check our global flag
+            if (_currentPopupControlID == null)
+            {
+                // Cancel event (as will hide popup otherwise)
+                evt.cancelBubble = true;
+
+                // Show the item
+                $find(popupControlID).showPopup();
+            }
+            else
+            {
+                // Hide the item
+                $find(popupControlID).hidePopup();
+            }
+        }
+
+        // Change images on mouse over.
+        function MouseRollOver(imageID, newImage)
+        {
+            // Set new image 
+            document.getElementById(imageID).src = newImage;
+        }
+
+        // Add a handler for detecting a body click     
+        function AddHandler(popupControlID)
+        {
+            // Check the flag to determine whether the popup control checked items has already been configured, it will be blank if not.
+            // We only want to do this once, as the item maybe reclicked at some point.
+            if (_currentPopupControlID == null)
+            {
+                // Add the handler for the body click event
+                try
+                {
+                    // Add the on body click handler
+                    Sys.UI.DomEvent.addHandler(document.body, 'click', BodyClick);
+                }
+                catch (e)
+                {
+                    // Display error
+                    alert('Error: ' + e.message);
+                }
+
+                // Assign flag
+                _currentPopupControlID = popupControlID;
+
+                // Try assigning
+                try
+                {
+                    // We want to store the currently checked items
+                    _startingCheckedItems = GetCheckedItems(_currentControlID);
+                }
+                catch (a)
+                {
+                    // Display error
+                    alert(a.message);
+                }
+            }
+            else
+            {
+                // Assign flag
+                _currentPopupControlID = popupControlID;
+
+                // Run click event as I have to assume, some where else has been clicked on the page
+                BodyClick();
+            }
+        }
+
+        // Function to run when the body of the page is clicked
+        function BodyClick()
+        {
+            // Reset our flag
+            _currentPopupControlID = null;
+
+            // Attempt to remove handler as we know the body has now been clicked
+            try
+            {
+                // Remove the onclick handler
+                Sys.UI.DomEvent.removeHandler(document.body, 'click', BodyClick);
+            }
+            catch (e)
+            {
+
+            }
+
+            // We need to check if any new checked items have been clicked ...
+            var _runUpdate = false;
+
+            // We need to compare what is currently selected, with what was selected
+            var _currentSelected = GetCheckedItems(_currentControlID);
+            var _passedCheck = false;
+
+            // Check if the lengths are the same, if not we know a change has happened
+            if (_startingCheckedItems.length != _currentSelected.length)
+            {
+                // Set to run the update
+                _runUpdate = true;
+            }
+            else
+            {
+                // Loop and check if a change has been made
+                for (var i = 0; i < _startingCheckedItems.length; i++)
+                {
+                    // Loop through the original selected items
+                    for (var j = 0; j < _currentSelected.length; j++)
+                    {
+                        // Check if item matches
+                        if (_currentSelected[i] == _startingCheckedItems[j])
+                        {
+                            // Set flag
+                            _passedCheck = true;
+
+                            break;
+                        }
+                    }
+
+                    // Check whether it passed the check
+                    if (_passedCheck)
+                    {
+                        // Reset flag
+                        _passedCheck = false;
+                    }
+                    else
+                    {
+                        // Didn't pass, set flag
+                        _runUpdate = true;
+
+                        // Break loop as the item didn't pass the check
+                        break;
+                    }
+                }
+            }
+
+            // Run the update
+            if (_runUpdate)
+            {
+                // Update the server
+                UpdateCheckedItems(_currentControlID, _currentParameterID);
+
+                // Force post back
+                forcePostBack("ctl00$ContentPlaceHolder1$rshReportControl$btnTrigger", "");
+            }
+        }
+
+        // Set the control when clicked
+        function SetCurrentControl(controlID, parameterID)
+        {
+            // Assign
+            _currentParameterID = parameterID;
+            _currentControlID = controlID;
+        }
+
+        // Get the items that are checked on the control
+        function GetCheckedItems(controlID)
+        {
+            // Variables
+            var checkedItems = new Array();
+            var items = document.getElementById(controlID).getElementsByTagName("input");
+            var k = 0;
+
+            // Loop through the child nodes ...
+            for (var i = 0; i < items.length; i++)
+            {
+                // Is it a checkbox input?
+                if (items[i].type == 'checkbox')
+                {
+                    // Is it checked?
+                    if (items[i].checked)
+                    {
+                        // Add value
+                        checkedItems[k] = i;
+
+                        // Increment
+                        k += 1;
+                    }
+                }
+            }
+
+            // Return
+            return checkedItems;
+        }
+
+        // Hide the mouse over div box
+        function HideMessage()
+        {
+            // Hide
+            document.getElementById('messageBox').style.display = 'none';
+            document.getElementById('messageBox').innerHTML = '';
+        }
+
+        // Hide the mouse over div box
+        function HideParameterMessage()
+        {
+            // Hide
+            document.getElementById('ParameterMessageBox').style.display = 'none';
+            document.getElementById('ParameterMessageBox').innerHTML = '';
+        }
+
+        // This is for moz 
+        function WatchMouse(e)
+        {
+            // Initialise vars           
+            var x = 0, y = 0;
+
+            // Do we have the event?
+            if (!e)
+            {
+                e = window.event;
+            }
+
+            // Check position
+            if (e.clientX || e.clientY)
+            {
+                x = e.clientX;
+                y = e.clientY;
+            }
+            else if (e.pageX || e.pageY)
+            {
+                x = e.pageX;
+                y = e.pageY;
+            }
+
+            // Assign
+            _globalX = x;
+            _globalY = y;
+        }
+
+        var _globalX;
+        var _globalY;
+
+        // Show message box against a particular object
+        function ShowMessage(obj, message)
+        {
+            // Initialise vars           
+            var x = 0, y = 0;
+
+            // Assign
+            x = _globalX;
+            y = _globalY;
+
+            // Get browser location
+            if (document.pageYOffset)
+            {
+                x += document.pageXOffset;
+                y += document.pageYOffset;
+            }
+            else if (document.documentElement && document.documentElement.scrollTop)
+            {
+                x += document.documentElement.scrollLeft;
+                y += document.documentElement.scrollTop;
+            }
+            else if (document.body)
+            {
+                x += document.body.scrollLeft;
+                y += document.body.scrollTop;
+            }
+
+            // Show the box and set the properties
+            document.getElementById('messageBox').innerHTML = message;
+            document.getElementById('messageBox').style.top = y + 'px';
+            document.getElementById('messageBox').style.left = (x + 15) + 'px';
+            document.getElementById('messageBox').style.display = 'block';
+        }
+
+        // Show message box against a particular object
+        function ShowParameterMessage(obj, message)
+        {
+            // Get the div
+            var div = document.getElementById('ctl00_ContentPlaceHolder1_rshReportControl_pnlSetReportParameters');
+
+            // Initialise vars           
+            var x = 0, y = 0;
+
+            // Assign
+            x = _globalX;
+            y = _globalY;
+
+            // Get browser location
+            if (document.pageYOffset)
+            {
+                x += document.pageXOffset;
+                y += document.pageYOffset;
+            }
+            else if (document.documentElement && document.documentElement.scrollTop)
+            {
+                x += document.documentElement.scrollLeft;
+                y += document.documentElement.scrollTop;
+            }
+            else if (document.body)
+            {
+                x += document.body.scrollLeft;
+                y += document.body.scrollTop;
+            }
+
+            x -= div.style.left.replace('px', '');
+            y -= div.style.top.replace('px', '');
+
+            // Show the box and set the properties
+            document.getElementById('ParameterMessageBox').innerHTML = message;
+            document.getElementById('ParameterMessageBox').style.top = y + 'px';
+            document.getElementById('ParameterMessageBox').style.left = (x + 15) + 'px';
+            document.getElementById('ParameterMessageBox').style.display = 'block';
+        }
+
+        // Cause the drill down to happen
+        function TriggerDrilldown(value)
+        {
+            // Set value of hidden field ...
+            document.getElementById("ctl00_ContentPlaceHolder1_rshReportControl_hfDrillDownLabel").value = value;
+
+            // Force post back   
+            forcePostBack("ctl00$ContentPlaceHolder1$rshReportControl$btnDrillDown", "");
+        }
+
+        // Check whether all the page values have been set that should of been.
+        function CheckPageValues()
+        {
+            // Check our object exists
+            if ((_valuesToCheckArray != 'undefined') && (_valuesToCheckArray.length > 0))
+            {
+                // Hold string of values that need checking
+                var _valuesToCheck = '';
+
+                // We want to loop through our array of controls that need checking
+                for (var i = 0; i < _valuesToCheckArray.length; i++)
+                {
+                    // Find control
+                    var control = document.getElementById(_valuesToCheckArray[i]);
+
+                    // Check the item index
+                    if (control.selectedIndex == 0)
+                    {
+                        // Append               
+                        _valuesToCheck += _valuesToCheckArray[i] + '\n';
+                    }
+                }
+
+                // Check if we have any values set for the alert
+                if (_valuesToCheck != '')
+                {
+                    // Create message
+                    alert('The following filters need to be set: \n\n' + _valuesToCheck);
+                }
+            }
+        }
+
+        // Check the validation for the control
+        function ExtendValidation()
+        {
+            // Is validation active?
+            //if (!Page_ValidationActive) return true;
+            var AllValid = true;
+
+            // Is control valid?
+            for (var i = 0; i < Page_Validators.length; i++)
+            {
+                // Check validation group matches
+                if (Page_Validators[i].validationGroup == "ParameterValidation")
+                {
+                    // Validate
+                    ValidatorValidate(Page_Validators[i]);
+
+                    // Check for match
+                    if (!Page_Validators[i].isvalid)
+                    {
+                        // Set
+                        document.getElementById(Page_Validators[i].controltovalidate).style.color = "red";
+                        document.getElementById(Page_Validators[i].controltovalidate).style.borderColor = "red";
+
+                        // Set flag
+                        AllValid = false;
+                    }
+                    else
+                    {
+                        // Set
+                        document.getElementById(Page_Validators[i].controltovalidate).style.color = "black";
+                        document.getElementById(Page_Validators[i].controltovalidate).style.borderColor = "black";
+                    }
+                }
+            }
+
+            // Return state
+            return AllValid;
+        }
+        
+    </script>
+    
+    <!-- Popup message box -->
+    <div id="messageBox" class="HoverBox">
+    
+        &nbsp;
+        
+    </div>
+    
+    <!-- Hidden Fields -->
+    <input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$hfDrillDownLabel" id="ctl00_ContentPlaceHolder1_rshReportControl_hfDrillDownLabel">
+    
+    <!-- Trigger Button Items -->
+    <input type="submit" name="ctl00$ContentPlaceHolder1$rshReportControl$btnLoadingScreenTrigger" value="" id="ctl00_ContentPlaceHolder1_rshReportControl_btnLoadingScreenTrigger" style="display: none;">
+    <input type="submit" name="ctl00$ContentPlaceHolder1$rshReportControl$btnSetReportParameters" value="" id="ctl00_ContentPlaceHolder1_rshReportControl_btnSetReportParameters" style="display: none;">
+    <input type="submit" name="ctl00$ContentPlaceHolder1$rshReportControl$btnDrillDown" value="DrillDown" id="ctl00_ContentPlaceHolder1_rshReportControl_btnDrillDown" style="display: none;">
+    <input type="submit" name="ctl00$ContentPlaceHolder1$rshReportControl$btnLoadReportTrigger" value="Run Report" id="ctl00_ContentPlaceHolder1_rshReportControl_btnLoadReportTrigger" style="display: none;">
+                
+
+
+    <!-- Custom Report Parameters -->
+    <div id="ctl00_ContentPlaceHolder1_rshReportControl_pnlSetReportParameters">
+    
+        
+        
+    </div>
+
+    <!-- The report viewer control -->
+    <div id="ctl00_ContentPlaceHolder1_rshReportControl_pnlReportViewerControl" onmousemove="WatchMouse(event);">
+		
+        
+        <div>
+            <!-- Report View Control -->
+            <noscript>
+			&nbsp;Your browser does not support scripts or has been configured not to allow scripts.
+		</noscript><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ReportViewer" style="height: 100%; width: 100%;">
+				<div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_HttpHandlerMissingErrorMessage" style="border-color:Red;border-width:2px;border-style:Solid;padding:10px;display:none;overflow:auto;font-size:.85em;">
+					<h2>
+						Report Viewer Configuration Error
+					</h2><p>The Report Viewer Web Control HTTP Handler has not been registered in the application's web.config file.  Add &lt;add verb="*" path="Reserved.ReportViewerWebControl.axd" type = "Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /&gt; to the system.web/httpHandlers section of the web.config file, or add &lt;add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /&gt; to the system.webServer/handlers section for Internet Information Services 7 or later.</p>
+				</div><span id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl03$ctl00" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03_ctl00"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl03$ctl01" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03_ctl01"></span><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl10" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl10" value="ltr"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl11" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl11" value="standards"><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait" style="background-color: white; opacity: 0.7; position: absolute; top: 29px; left: 0px; width: 379px; height: 0px; z-index: 1000; visibility: hidden; display: none;">
+
+				</div><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait_Wait" style="cursor: wait; background-color: white; padding: 15px; border: 1px solid black; position: absolute; z-index: 1001; visibility: hidden; top: 0px; left: 106.5px; display: none;">
+					<table height="100%">
+						<tbody><tr>
+							<td width="32px" height="32px"><img src="/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=12.0.2402.15&amp;Name=Microsoft.Reporting.WebForms.Icons.SpinningWheel.gif" alt="Loading..." style="height:32px;width:32px;border-width:0px;"></td><td style="vertical-align:middle;text-align:center;"><span style="font-family:Verdana;font-size:14pt;">Loading...</span><div style="margin-top:3px;">
+								<a href="javascript:$get('ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait').control._cancelCurrentPostback();" style="font-family:Verdana;font-size:8pt;color:#3366CC;">Cancel</a>
+							</div></td>
+						</tr>
+					</tbody></table>
+				</div><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$AsyncWait$HiddenCancelField" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait_HiddenCancelField" value="False"><table cellpadding="0" cellspacing="0" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_fixedTable">
+					<tbody><tr id="ParametersRowctl00_ContentPlaceHolder1_rshReportControl_rvReportPane" style="display:none;">
+						<td colspan="3"></td>
+					</tr><tr style="height:6px;font-size:2pt;display:none;">
+						<td colspan="3" style="padding:0px;margin:0px;text-align:center;background-color:#ECE9D8;"><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam">
+							<input type="image" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ToggleParam$img" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam_img" title="Show / Hide Parameters" src="/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=12.0.2402.15&amp;Name=Microsoft.Reporting.WebForms.Icons.SplitterHorizCollapse.png" alt="Show / Hide Parameters" align="middle" onclick="void(0);" style="border-width:0px;cursor:pointer;"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ToggleParam$store" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam_store"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ToggleParam$collapse" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam_collapse" value="false">
+						</div></td>
+					</tr><tr>
+
+					</tr><tr>
+						<td style="vertical-align:top;display:none;"><div>
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl08$ClientClickedId" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl08_ClientClickedId">
+</div></div>
+						</div></td><td style="display:none;width:4px;padding:0px;margin:0px;height:100%;vertical-align:middle;background-color:#ECE9D8;"><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07">
+							<input type="image" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl07$img" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07_img" title="Show / Hide Document Map" src="/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=12.0.2402.15&amp;Name=Microsoft.Reporting.WebForms.Icons.SplitterVertCollapse.png" alt="Show / Hide Document Map" align="top" onclick="void(0);" style="border-width:0px;cursor:pointer;display:none;"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl07$store" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07_store"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl07$collapse" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07_collapse" value="false">
+						</div></td><td style="vertical-align:top;"><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09" style="position:relative;">
+                            <div class="results-container">
+                                <div class="report-title">2024/25 Results of 24370993 - MS Kehan Liu</div>
+                                
+                                <table class="results-table">
+                                    <tr>
+                                        <td class="results-cell" style="width:60mm"><strong>Course</strong></td>
+                                        <td class="results-cell" colspan="3">UBHH-HISY-2F - History</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="results-cell"><strong>Year of Course</strong></td>
+                                        <td class="results-cell" colspan="3">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="results-cell"><strong>Examination Session</strong></td>
+                                        <td class="results-cell" colspan="3">Annual Examinations</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="results-cell"><strong>Annual Result</strong></td>
+                                        <td class="results-cell" colspan="3">II-1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="results-cell"><strong>Mark %</strong></td>
+                                        <td class="results-cell" colspan="3">65 %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="results-cell"><strong>Credits Awarded</strong></td>
+                                        <td class="results-cell" colspan="3">60 credits</td>
+                                    </tr>
+                                </table>
+                        
+                                <table class="results-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="results-header col-code">Module Code</th>
+                                            <th class="results-header col-name" colspan="2">Name</th>
+                                            <th class="results-header col-credits">Module Credits (ECTS)</th>
+                                            <th class="results-header col-mark">Mark %</th>
+                                            <th class="results-header col-grade" colspan="2">Grade/Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="row-white">
+                                            <td class="results-cell border-blue-left col-code">HIU11001</td>
+                                            <td class="results-cell col-name" colspan="2">DOING HISTORY: SOURCES</td>
+                                            <td class="results-cell col-credits">5</td>
+                                            <td class="results-cell col-mark">63</td>
+                                            <td class="results-cell border-blue-right col-grade" colspan="2">II-1</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                            <td class="results-cell border-blue-left col-code">HIU11002</td>
+                                            <td class="results-cell col-name" colspan="2">DOING HISTORY: INTERPRETATIONS</td>
+                                            <td class="results-cell col-credits">5</td>
+                                            <td class="results-cell col-mark">68</td>
+                                            <td class="results-cell border-blue-right col-grade" colspan="2">II-1</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                            <td class="results-cell border-blue-left col-code">HIU12020</td>
+                                            <td class="results-cell col-name" colspan="2">KINGSHIP AND WARFARE: IRELAND C.1000-C.1318</td>
+                                            <td class="results-cell col-credits">10</td>
+                                            <td class="results-cell col-mark">64</td>
+                                            <td class="results-cell border-blue-right col-grade" colspan="2">II-1</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                            <td class="results-cell border-blue-left col-code">HIU12021</td>
+                                            <td class="results-cell col-name" colspan="2">RELIGION AND SOCIETY, C.1095-C.1517</td>
+                                            <td class="results-cell col-credits">10</td>
+                                            <td class="results-cell col-mark">67</td>
+                                            <td class="results-cell border-blue-right col-grade" colspan="2">II-1</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                            <td class="results-cell border-blue-left col-code">HIU12023</td>
+                                            <td class="results-cell col-name" colspan="2">IRELAND 1534-1815: A SURVEY</td>
+                                            <td class="results-cell col-credits">10</td>
+                                            <td class="results-cell col-mark">66</td>
+                                            <td class="results-cell border-blue-right col-grade" colspan="2">II-1</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                            <td class="results-cell border-blue-left col-code">HIU12024</td>
+                                            <td class="results-cell col-name" colspan="2">EUROPE 1500-1800: POWER AND CULTURE</td>
+                                            <td class="results-cell col-credits">10</td>
+                                            <td class="results-cell col-mark">69</td>
+                                            <td class="results-cell border-blue-right col-grade" colspan="2">II-1</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                            <td class="results-cell border-blue-left border-blue-bottom col-code">SPU1105Y</td>
+                                            <td class="results-cell border-blue-bottom col-name" colspan="2">FIRST YEAR SPANISH BEGINNERS</td>
+                                            <td class="results-cell border-blue-bottom col-credits">10</td>
+                                            <td class="results-cell border-blue-bottom col-mark">60</td>
+                                            <td class="results-cell border-blue-right border-blue-bottom col-grade" colspan="2">II-2</td>
+                                        </tr>
+                                    </tbody>
+                                    <table id="table3" class="results-table" style="display:none;">
+                                    <thead>
+                                        <tr>
+                                          <th class="results-header col-code">Module Code</th>
+                                          <th class="results-header col-name" colspan="2">Name</th>
+                                          <th class="results-header col-assessment">Assessment Components</th>
+                                          <th class="results-header col-weight">Weight</th>
+                                          <th class="results-header col-mark" colspan="2">Mark / Grade</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr class="row-white">
+                                          <td class="results-cell border-blue-left col-code">HIU11001</td>
+                                          <td class="results-cell col-name" colspan="2" rowspan="1">DOING HISTORY: SOURCES</td>
+                                          <td class="results-cell col-assessment">Coursework 100%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">100%</td>
+                                          <td class="results-cell border-blue-right col-mark"colspan="2"  style="text-align:center;">62.75</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell border-blue-left col-code">HIU11002</td>
+                                          <td class="results-cell col-name" colspan="2" rowspan="1">DOING HISTORY: INTERPRETATIONS</td>
+                                          <td class="results-cell col-assessment">Essay 100%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">100%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">68</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                          <td class="results-cell border-blue-left col-code" rowspan="3">HIU12020</td>
+                                          <td class="results-cell col-name" colspan="2" rowspan="3">KINGSHIP AND WARFARE: IRELAND C.1000-C. 1318</td>
+                                          <td class="results-cell col-assessment">Tutorial Assignment 10%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">10%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2"  style="text-align:center;">70</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell col-assessment">Essay 1 30%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">30%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">60</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                          <td class="results-cell col-assessment">Essay 2 60%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">60%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">65</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell border-blue-left col-code" rowspan="3">HIU12021</td>
+                                          <td class="results-cell col-name" colspan="2"  rowspan="3">RELIGION AND SOCIETY, C.1095-C.1517</td>
+                                          <td class="results-cell col-assessment">Tutorial</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">10%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">80</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                          <td class="results-cell col-assessment">Essay 1</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">30%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">63</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell col-assessment">Essay 2</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">60%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">66</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                          <td class="results-cell border-blue-left col-code" rowspan="3">HIU12023</td>
+                                          <td class="results-cell col-name" colspan="2" rowspan="3">IRELAND 1534-1815: A SURVEY</td>
+                                          <td class="results-cell col-assessment">Tutorial Assignment</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">10%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">90</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell col-assessment">Essay 1</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">30%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">62</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                          <td class="results-cell col-assessment">Essay 2</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">60%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">64</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell border-blue-left col-code" rowspan="3">HIU12024</td>
+                                          <td class="results-cell col-name" colspan="2"  rowspan="3">EUROPE 1500-1800: POWER AND CULTURE</td>
+                                          <td class="results-cell col-assessment">Tutorial Assignment 10%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">10%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">96</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell col-assessment">Essay 1 30%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">30%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">68</td>
+                                        </tr>
+                                        <tr class="row-light-blue">
+                                          <td class="results-cell col-assessment">Essay 2 60%</td>
+                                          <td class="results-cell col-weight" style="text-align:center;">60%</td>
+                                          <td class="results-cell border-blue-right col-mark" colspan="2" style="text-align:center;">65</td>
+                                        </tr>
+                                        <tr class="row-white">
+                                            <td class="results-cell border-blue-left  border-blue-bottom col-code" rowspan="3">SPU1105Y</td>
+                                            <td class="results-cell col-name  border-blue-bottom" colspan="2"  rowspan="3">FIRST YEAR SPANISH BEGINNERS</td>
+                                            <td class="results-cell  col-assessment">Written in person exam</td>
+                                            <td class="results-cell  col-weight" style="text-align:center;">60%</td>
+                                            <td class="results-cell border-blue-right  col-mark" colspan="2"  style="text-align:center;">57</td>
+                                          </tr>
+                                          <tr class="row-light">
+                                            <td class="results-cell  col-assessment">Oral exam</td> <!-- 加了border-blue-bottom -->
+                                            <td class="results-cell  col-weight" style="text-align:center;">20%</td> <!-- 加了border-blue-bottom -->
+                                            <td class="results-cell  border-blue-right col-mark" colspan="2"  style="text-align:center;">64</td> <!-- 加了border-blue-bottom -->
+                                          </tr>
+                                          <tr class="row-white">
+                                            <td class="results-cell border-blue-bottom col-assessment">In-class test (MT)</td> <!-- 加了border-blue-bottom -->
+                                            <td class="results-cell border-blue-bottom col-weight" style="text-align:center;">20%</td> <!-- 加了border-blue-bottom -->
+                                            <td class="results-cell border-blue-right border-blue-bottom col-mark" colspan="2"  style="text-align:center;">63</td> <!-- 加了border-blue-bottom -->
+                                          </tr>
+                                          
+                                      </tbody>
+                                    </tbody>
+                                </table>
+                                
+                                
+                                <div style="margin-top: 10mm;">
+                                    <a href="#" id="toggleModuleBreakdown" class="results-link">Show Module Breakdown</a>
+                                  </div>
+                                  
+                                <table class="results-table">
+                                    
+                            </div>
+                            <input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$VisibilityState$ctl00" value="ReportPage">
+</div><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$ScrollPosition" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ScrollPosition"><span id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_Reserved_AsyncLoadTarget"></span><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl" style="display:none;">
+	<span></span><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$ReportControl$ctl02" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl_ctl02"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$ReportControl$ctl03" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl_ctl03"><input type="hidden" name="ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$ReportControl$ctl04" id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl_ctl04" value="100"><div style="display:none;">
+		
+	</div>
+</div><div id="ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_NonReportContent" style="height: 100%; width: 100%; display: none;">
+
+</div></div>
+						</div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+        
+        </div>
+    
+	</div>
+    
+    <!-- Our generic loading screen -->
+    <div id="ctl00_ContentPlaceHolder1_rshReportControl_PageLoadingScreen" style="display: none; position: fixed; left: 1280px; top: 647px;">
+    
+        <div class="ReportLoadingScreen">
+        
+            <div class="LoadingBox">
+    
+                <img src="image/loader.gif" alt="Loading Image">
+                
+                <br>
+                
+                <span class="smallSpan">... Loading Your Selected Report ...</span>
+            
+            </div>
+        
+        </div>
+        
+    </div>
+    
+    <!-- Popup extenders -->
+    
+
+    <!-- Loading screen -->
+    
+
+
+<div id="LoadingScreenExtender_backgroundElement" class="ModalPopupBackground" style="display: none; position: fixed; left: 0px; top: 0px; width: 2560px; height: 1294px;"></div></div>
+                
+            </div> 
+
+            
+               
+            
+            <!-- Contains menu for saving a snapshot of the current report -->
+            <div id="ctl00_ContentPlaceHolder1_divSaveSnapshot" class="SaveSnapshot" style="display: none; position: fixed; left: 1280px; top: 647px;">
+            
+                <div id="ctl00_ContentPlaceHolder1_pnlSaveSnapshot" class="pnlSaveSnapshot" onkeypress="javascript:return WebForm_FireDefaultButton(event, 'ctl00_ContentPlaceHolder1_btnSaveSnapshot')">
+	
+            
+                    <div style="width: auto; height: auto;">
+                        
+                        <h2>Save Report Snapshot</h2>
+                    
+                        <p>
+                            <span class="smallSpan">
+                                Save a current snapshot of your report configuration.
+                            </span>
+                        </p>
+                        
+                        <p>
+                            <label for="ctl00_ContentPlaceHolder1_txtSnapshotName" id="ctl00_ContentPlaceHolder1_lblSnapshotName" class="ParameterLabel">Filter Snapshot Name</label>
+                            <br>
+                            <input name="ctl00$ContentPlaceHolder1$txtSnapshotName" type="text" maxlength="20" id="ctl00_ContentPlaceHolder1_txtSnapshotName" class="SaveSnapshotTextBox">
+                            <span id="ctl00_ContentPlaceHolder1_rfvSnapshotName" style="color:Red;display:none;">Enter a name</span>
+                            <span id="ctl00_ContentPlaceHolder1_cvCheckSnapshotName" style="color:Red;display:none;">The name already exists</span>
+                                                 
+                        </p>
+                        
+                        <p>
+                            
+                           <input type="image" name="ctl00$ContentPlaceHolder1$btnCancelSave" id="ctl00_ContentPlaceHolder1_btnCancelSave" title="Click to cancel saving report snapshot. " src="image/button/cancel.jpg" alt="Cancel Button Image" style="border-width:0px;"> 
+                        </p>
+                        
+                    </div>
+                    
+                
+</div>
+            
+            </div>  
+               
+        
+
+
+    <div id="SaveSnapshotExtender_backgroundElement" class="ModalPopupBackground" style="display: none; position: fixed; left: 0px; top: 0px; width: 2560px; height: 1294px;"></div></div>
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_Validators =  new Array(document.getElementById("ctl00_ContentPlaceHolder1_rfvSnapshotName"), document.getElementById("ctl00_ContentPlaceHolder1_cvCheckSnapshotName"));
+//]]>
+</script>
+<script>
+    const toggleLink = document.getElementById('toggleModuleBreakdown');
+    const table3 = document.getElementById('table3');
+    let shown = false;
+  
+    toggleLink.addEventListener('click', function(e) {
+      e.preventDefault();  // 阻止跳转
+      if (!shown) {
+        table3.style.display = 'table';  // 显示表格
+        toggleLink.textContent = 'Hide Module Breakdown';
+        shown = true;
+      } else {
+        table3.style.display = 'none';   // 隐藏表格
+        toggleLink.textContent = 'Show Module Breakdown';
+        shown = false;
+      }
+    });
+  </script>
+<script type="text/javascript">
+//<![CDATA[
+var ctl00_ContentPlaceHolder1_rfvSnapshotName = document.all ? document.all["ctl00_ContentPlaceHolder1_rfvSnapshotName"] : document.getElementById("ctl00_ContentPlaceHolder1_rfvSnapshotName");
+ctl00_ContentPlaceHolder1_rfvSnapshotName.controltovalidate = "ctl00_ContentPlaceHolder1_txtSnapshotName";
+ctl00_ContentPlaceHolder1_rfvSnapshotName.errormessage = "A snapshot name is required";
+ctl00_ContentPlaceHolder1_rfvSnapshotName.display = "Dynamic";
+ctl00_ContentPlaceHolder1_rfvSnapshotName.validationGroup = "SaveSnapshot";
+ctl00_ContentPlaceHolder1_rfvSnapshotName.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_ContentPlaceHolder1_rfvSnapshotName.initialvalue = "";
+var ctl00_ContentPlaceHolder1_cvCheckSnapshotName = document.all ? document.all["ctl00_ContentPlaceHolder1_cvCheckSnapshotName"] : document.getElementById("ctl00_ContentPlaceHolder1_cvCheckSnapshotName");
+ctl00_ContentPlaceHolder1_cvCheckSnapshotName.controltovalidate = "ctl00_ContentPlaceHolder1_txtSnapshotName";
+ctl00_ContentPlaceHolder1_cvCheckSnapshotName.errormessage = "The name already exists";
+ctl00_ContentPlaceHolder1_cvCheckSnapshotName.display = "Dynamic";
+ctl00_ContentPlaceHolder1_cvCheckSnapshotName.validationGroup = "SaveSnapshot";
+ctl00_ContentPlaceHolder1_cvCheckSnapshotName.evaluationfunction = "CustomValidatorEvaluateIsValid";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var _isInitialLoad = false;var _currentID = -1;
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        Sys.Application.add_init(function() {
+    
+if (typeof Microsoft == 'undefined' ||
+    typeof Microsoft.Reporting == 'undefined' ||
+    typeof Microsoft.Reporting.WebFormsClient == 'undefined' ||
+    typeof Microsoft.Reporting.WebFormsClient.ReportViewer == 'undefined')
+    Sys.UI.DomElement.setVisible($get('ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_HttpHandlerMissingErrorMessage'), true);
+    $create(Microsoft.Reporting.WebFormsClient.ReportViewer, {"_internalViewerId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03","id":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, null, null);
+});
+Sys.WebForms.PageRequestManager.getInstance()._registerDisposeScript("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ReportViewer", "$find(\u0027ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_SessionKeepAlive\u0027).dispose();");
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._InternalReportViewer, {"ActionParamId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03_ctl01","ActionTypeId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03_ctl00","BaseHeight":"100%","BaseWidth":"100%","BrowserModeId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl11","DirectionCacheId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl10","DocMapAreaId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl08","DocMapHeaderOverflowDivId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl08DocMapHeaderOverflowDiv","DocMapSplitterId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07","DocMapUpdatePanelId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_DocMap","ExportUrlBase":"/ReportCradle/Reserved.ReportViewerWebControl.axd?ReportSession=ven0bjiuwkjxfpy2t2jzk045\u0026Culture=6153\u0026CultureOverrides=True\u0026UICulture=1033\u0026UICultureOverrides=True\u0026ReportStack=1\u0026ControlID=7a4adaa16774469d80624ab4bdd0490d\u0026OpType=Export\u0026FileName=RPT-PROG-041-MyResults+-+v1\u0026ContentDisposition=OnlyHtmlInline\u0026Format=","FixedTableId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_fixedTable","HasSizingRow":false,"PostBackToClientScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl03','');},"PrintInfo":{"CabUrl":"/ReportCradle/Reserved.ReportViewerWebControl.axd?ReportSession=ven0bjiuwkjxfpy2t2jzk045\u0026Culture=6153\u0026CultureOverrides=True\u0026UICulture=1033\u0026UICultureOverrides=True\u0026ReportStack=1\u0026ControlID=7a4adaa16774469d80624ab4bdd0490d\u0026OpType=PrintCab\u0026Arch=X86#Version=2017,140,0600,1860","CabClsid":"5554DCB0-700B-498D-9B58-4E40E5814405","MarginLeft":0,"MarginRight":0,"MarginTop":0,"MarginBottom":0,"PageHeight":296.926,"PageWidth":210.058,"Culture":6153,"UICulture":1033,"UseSingleRequest":false,"PrintRequestPath":"/ReportCradle/Reserved.ReportViewerWebControl.axd","PrintRequestQuery":"ReportSession=ven0bjiuwkjxfpy2t2jzk045\u0026Culture=6153\u0026CultureOverrides=True\u0026UICulture=1033\u0026UICultureOverrides=True\u0026ReportStack=1\u0026ControlID=7a4adaa16774469d80624ab4bdd0490d\u0026OpType=PrintRequest","ReportDisplayName":"RPT-PROG-041-MyResults - v1"},"PromptAreaRowId":"ParametersRowctl00_ContentPlaceHolder1_rshReportControl_rvReportPane","PromptSplitterId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam","ReportAreaId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09","ReportViewerId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane","TopLevelUpdatePanelId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ReportViewer","UnableToLoadPrintMessage":"Printing is not available. Verify that ActiveX is enabled, or try using Internet Explorer for the desktop."}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl03"));
+    $create(Microsoft.Reporting.WebFormsClient._SessionKeepAlive, {"KeepAliveBody":null,"KeepAliveIntervalSeconds":539,"KeepAliveUrl":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=SessionKeepAlive\u0026ControlID=7a4adaa16774469d80624ab4bdd0490d","id":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_SessionKeepAlive"}, null, null);
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._AsyncWaitControl, {"ClientCanceledId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait_HiddenCancelField","DisplayDelay":1000,"FixedTableId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_fixedTable","ReportViewerId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane","SkipTimer":true,"TriggerIds":["ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"],"WaitControlId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait_Wait"}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_AsyncWait"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._Splitter, {"HoverColor":"#DDEEF7","ImageCollapse":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterHorizCollapse.png","ImageCollapseHover":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterHorizCollapseHover.png","ImageExpand":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterHorizExpand.png","ImageExpandHover":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterHorizExpandHover.png","ImageId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam_img","IsCollapsable":true,"NormalColor":"#ECE9D8","Resizable":false,"StoreCollapseField":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam_collapse","StorePositionField":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam_store","Vertical":false}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ToggleParam"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._Toolbar, {"AtomDataFeedButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl07_ctl00"),"CanFindNext":false,"CurrentPage":1,"CurrentPageTextBox":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_CurrentPage"),"DrillBackButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00"),"ExportButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl04_ctl00"),"FindButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl03_ctl01"),"FindNextButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl03_ctl03"),"FindTextBox":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl03_ctl00"),"FirstPageNavButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First"),"InvalidPageNumberMessage":"Enter a valid page number","IsDrillthroughReport":false,"IsEstimatePageCount":true,"LastPageNavButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last"),"NextPageNavButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next"),"OnCurrentPageClick":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$CurrentPage','');},"PrevPageNavButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous"),"PrintButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl06_ctl00"),"RefreshButton":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl05_ctl00"),"TotalPages":0,"TotalPagesLabel":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_TotalPages"),"ZoomDropDown":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl02_ctl00")}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ScriptSwitchImage, {"Image1":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl00"),"Image2":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl01")}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl00_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$First$ctl00','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl00_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl00"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl01_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$First$ctl01','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl01_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_First_ctl01"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ScriptSwitchImage, {"Image1":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl00"),"Image2":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl01")}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl00_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$Previous$ctl00','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl00_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl00"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl01_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$Previous$ctl01','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl01_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Previous_ctl01"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ScriptSwitchImage, {"Image1":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl00"),"Image2":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl01")}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl00_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$Next$ctl00','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl00_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl00"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl01_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$Next$ctl01','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl01_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Next_ctl01"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ScriptSwitchImage, {"Image1":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl00"),"Image2":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl01")}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl00_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$Last$ctl00','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl00_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl00"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl01_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl00$Last$ctl01','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl01_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl00_Last_ctl01"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ScriptSwitchImage, {"Image1":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl00"),"Image2":$get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl01")}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl00_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl01$ctl00$ctl00','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl00_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl00"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._HoverImage, {"HoverStyles":{"CssClass":null,"Color":"#DDEEF7","Border":"1px #336699 Solid"},"IsRtlVisible":false,"LTRImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl01_ctl00","NormalStyles":{"CssClass":null,"Color":"transparent","Border":"1px transparent Solid"},"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl01$ctl00$ctl01','');},"RTLImageID":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl01_ctl01"}, null, {"ReportViewer":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane"}, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl01_ctl00_ctl01"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._TextButton, {"ActiveHoverLinkColor":"#FF3300","ActiveLinkColor":"#3366CC","DisabledLinkColor":"Gray","IsActive":false,"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl03$ctl01','');}}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl03_ctl01"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._TextButton, {"ActiveHoverLinkColor":"#FF3300","ActiveLinkColor":"#3366CC","DisabledLinkColor":"Gray","IsActive":false,"OnClickScript":function(){__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl05$ctl03$ctl03','');}}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl05_ctl03_ctl03"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._Splitter, {"HoverColor":"#DDEEF7","ImageCollapse":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterVertCollapse.png","ImageCollapseHover":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterVertCollapseHover.png","ImageExpand":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterVertExpand.png","ImageExpandHover":"/ReportCradle/Reserved.ReportViewerWebControl.axd?OpType=Resource\u0026Version=12.0.2402.15\u0026Name=Microsoft.Reporting.WebForms.Icons.SplitterVertExpandHover.png","ImageId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07_img","IsCollapsable":false,"NormalColor":"#ECE9D8","Resizable":false,"StoreCollapseField":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07_collapse","StorePositionField":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07_store","Vertical":true}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl07"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ReportArea, {"NonReportContentId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_NonReportContent","ReportAreaVisibilityStateId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_VisibilityState","ReportControlId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl","ScrollPositionId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ScrollPosition","VisibleReportContentContainerId":"VisibleReportContentctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09"}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ReportAreaAsyncLoadTarget, {"PostBackForAsyncLoad":function() {__doPostBack('ctl00$ContentPlaceHolder1$rshReportControl$rvReportPane$ctl09$Reserved_AsyncLoadTarget','');}}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_Reserved_AsyncLoadTarget"));
+});
+Sys.Application.add_init(function() {
+    $create(Microsoft.Reporting.WebFormsClient._ReportPage, {"HiddenZoomLevelId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl_ctl04","StyleElementId":"ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl_styles"}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_rvReportPane_ctl09_ReportControl"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"ModalPopupBackground","PopupControlID":"ctl00_ContentPlaceHolder1_rshReportControl_PageLoadingScreen","dynamicServicePath":"/ReportCradle/reportviewer.aspx","id":"LoadingScreenExtender"}, null, null, $get("ctl00_ContentPlaceHolder1_rshReportControl_btnLoadingScreenTrigger"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"ModalPopupBackground","CancelControlID":"ctl00_ContentPlaceHolder1_btnCancelSave","OnCancelScript":"CancelAction()","PopupControlID":"ctl00_ContentPlaceHolder1_divSaveSnapshot","dynamicServicePath":"/ReportCradle/reportviewer.aspx","id":"SaveSnapshotExtender"}, null, null, $get("ctl00_ContentPlaceHolder1_btnSaveSnapshotHidden"));
+});
+
+document.getElementById('ctl00_ContentPlaceHolder1_rfvSnapshotName').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_ContentPlaceHolder1_rfvSnapshotName'));
+}
+
+document.getElementById('ctl00_ContentPlaceHolder1_cvCheckSnapshotName').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_ContentPlaceHolder1_cvCheckSnapshotName'));
+}
+//]]>
+</script>
+<span style="display: none !important;"><input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value=""></span><span style="display: none !important;"><input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value=""></span><span style="display: none !important;"><input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPaA8FDzhkZGI4NzYyOWIxNzY0NRgCBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WHgVHY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRyc2hSZXBvcnRDb250cm9sJHJ2UmVwb3J0UGFuZSRUb2dnbGVQYXJhbSRpbWcFVWN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkRmlyc3QkY3RsMDAkY3RsMDAFVWN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkRmlyc3QkY3RsMDAkY3RsMDEFVWN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkRmlyc3QkY3RsMDEkY3RsMDAFVWN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkRmlyc3QkY3RsMDEkY3RsMDEFWGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkUHJldmlvdXMkY3RsMDAkY3RsMDAFWGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkUHJldmlvdXMkY3RsMDAkY3RsMDEFWGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkUHJldmlvdXMkY3RsMDEkY3RsMDAFWGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkUHJldmlvdXMkY3RsMDEkY3RsMDEFVGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkTmV4dCRjdGwwMCRjdGwwMAVUY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRyc2hSZXBvcnRDb250cm9sJHJ2UmVwb3J0UGFuZSRjdGwwNSRjdGwwMCROZXh0JGN0bDAwJGN0bDAxBVRjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDAwJE5leHQkY3RsMDEkY3RsMDAFVGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkTmV4dCRjdGwwMSRjdGwwMQVUY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRyc2hSZXBvcnRDb250cm9sJHJ2UmVwb3J0UGFuZSRjdGwwNSRjdGwwMCRMYXN0JGN0bDAwJGN0bDAwBVRjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDAwJExhc3QkY3RsMDAkY3RsMDEFVGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkcnNoUmVwb3J0Q29udHJvbCRydlJlcG9ydFBhbmUkY3RsMDUkY3RsMDAkTGFzdCRjdGwwMSRjdGwwMAVUY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRyc2hSZXBvcnRDb250cm9sJHJ2UmVwb3J0UGFuZSRjdGwwNSRjdGwwMCRMYXN0JGN0bDAxJGN0bDAxBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDAxJGN0bDAwJGN0bDAwJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDAxJGN0bDAwJGN0bDAwJGN0bDAxBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDAxJGN0bDAwJGN0bDAxJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDAxJGN0bDAwJGN0bDAxJGN0bDAxBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDA1JGN0bDAwJGN0bDAwJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDA1JGN0bDAwJGN0bDAxJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDA2JGN0bDAwJGN0bDAwJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDA2JGN0bDAwJGN0bDAxJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDA3JGN0bDAwJGN0bDAwJGN0bDAwBVVjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA1JGN0bDA3JGN0bDAwJGN0bDAxJGN0bDAwBUFjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJHJzaFJlcG9ydENvbnRyb2wkcnZSZXBvcnRQYW5lJGN0bDA3JGltZwUpY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRidG5TYXZlU25hcHNob3QFJ2N0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkYnRuQ2FuY2VsU2F2ZQUoY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRtdlJlcG9ydFZpZXdlcg8PZAICZOk0BIPnoQ7LV8RHhZnUzysb8oCSigol7vL+IThRGTL/"></span><span style="display: none !important;"><input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="B85E21D1"></span><span style="display: none !important;"><input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdADGIzu24VWsrHN6PClcdpoQPcldnpYEErBNpxJdfikyv/Y2mQ6sGsLqrdMnMQhPY/cUfSQNFhHYyjcO4mRpgoGfETM80izrSphYaRjRUv01jrgv/Gk9DM+FQbEJjAFI8HnsZqtPBLrG8fkaiPwvsr32i8zzOPFmuV/IvoyPmJK/HHdeKsRPiWpwaVpdBglVVFGg+/IPUL9LIkLZmSXRGxmp5mvNAhTHZLec6Wr1e4Xmc1VxIPsWPEkFdhcJ6pdoAiIWdedPyGGPAdQmrGQnmYiWxpzcSlnpOmZ+Px/Ue7koRDpE06/BmP1dQuzlTeQmFNdcWk6Cz9vu1iC0m+K8SJ49wyBvWvq+ULplLWJNkDotvbOeYh67HjR3G/+DmIoGNxkir9d8Nppe2UaB45PTTeu56wnYun+3J6kIDXyF6VkzXJwwOkQlQnDAX3JNwDOUcnJPyWWFn2//yEX3ZJfPvXeXRmpFRC1JAHjuXQ+9Xb82atilqiLjGrU4bVZa184fZufK5HbAB175gsRCnc1S/kET6LN9QmwK306A1HqSmAym6FOry6HzN/Ni8MnMOuWa/VdjeXwMv+sPwRG2hw6o0L3wOPGD+/tl/kPQBktNoEb3TLkdFYZaLYyenitT0ga2/jf6E+r7vFEolgTn5Mhh/1gs/3odGpsxZLw6DCJjgprBymmQnBDneE/9AK5cI4k0p1tYrfAK1ornX5K277AcKdxo0yPnc2Oaq5Be51wDxpZCHWoBDxtqoFgcsO9hD3KvCXt8z6dVGrkp7cUDH8s+22EV4Nz5L8s9JoSfD3ESgZQgyJ/AQhkW3A5Fe+R4biySrjizNIBKZXJkYxtXn7MsnsIrtxfdBjKmMj5/x3rsGXbj5mC2tbel58C79R8XuR34EJQw/u9I2SrnYG8Ae/eH3x0RhwapId0jrfE6AE1HsexW2G4JktG17qwSWNViasGJWV7svbD24Ji7M95Wkv8f56SkEBY185hpJ3NVbHJaStGl33szzFslSTiA9axHec4Dy4MwQqyR651sRATN+tRu3H/SHBkcid/rJgt3Cw6SzNy0EdKGnHdEs9QWaZE7nafyJzHE="></span></form>
+
+
+</body></html>
